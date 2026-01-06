@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { 
   Search, Bell, MoreHorizontal, MessageSquare, Phone as PhoneIcon, 
-  Users, Lock, Plus, Image, Smile, Mic, Send, Video, Check, CheckCheck
+  Users, Lock, Plus, Image, Smile, Mic, Send, Video, CheckCheck,
+  PhoneIncoming, PhoneOutgoing, PhoneMissed, UserPlus
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
-const contacts = [
+const chatContacts = [
   { id: 1, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", unread: 3, hasAudio: true, avatar: 1 },
   { id: 2, name: "Bloqueado", lastMessage: "Conteúdo com teor sexu...", unread: 2, avatar: 2 },
   { id: 3, name: "Bloqueado", lastMessage: "Finalize a ordem de...", unread: 5, muted: true, avatar: 3 },
@@ -13,6 +13,30 @@ const contacts = [
   { id: 5, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 5 },
   { id: 6, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 6 },
   { id: 7, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 7 },
+];
+
+const callHistory = [
+  { id: 1, name: "Bloqueado", type: "incoming", time: "Bloqueado", duration: "5:23", avatar: 1 },
+  { id: 2, name: "Bloqueado", type: "outgoing", time: "Bloqueado", duration: "2:15", avatar: 2 },
+  { id: 3, name: "Bloqueado", type: "missed", time: "Bloqueado", duration: null, avatar: 3 },
+  { id: 4, name: "Bloqueado", type: "incoming", time: "Bloqueado", duration: "12:45", avatar: 4 },
+  { id: 5, name: "Bloqueado", type: "missed", time: "Bloqueado", duration: null, avatar: 5 },
+  { id: 6, name: "Bloqueado", type: "outgoing", time: "Bloqueado", duration: "8:30", avatar: 6 },
+  { id: 7, name: "Bloqueado", type: "incoming", time: "Bloqueado", duration: "1:02", avatar: 7 },
+  { id: 8, name: "Bloqueado", type: "missed", time: "Bloqueado", duration: null, avatar: 8 },
+];
+
+const contactsList = [
+  { id: 1, name: "Bloqueado", status: "Bloqueado", avatar: 1 },
+  { id: 2, name: "Bloqueado", status: "Bloqueado", avatar: 2 },
+  { id: 3, name: "Bloqueado", status: "Bloqueado", avatar: 3 },
+  { id: 4, name: "Bloqueado", status: "Bloqueado", avatar: 4 },
+  { id: 5, name: "Bloqueado", status: "Bloqueado", avatar: 5 },
+  { id: 6, name: "Bloqueado", status: "Bloqueado", avatar: 6 },
+  { id: 7, name: "Bloqueado", status: "Bloqueado", avatar: 7 },
+  { id: 8, name: "Bloqueado", status: "Bloqueado", avatar: 8 },
+  { id: 9, name: "Bloqueado", status: "Bloqueado", avatar: 9 },
+  { id: 10, name: "Bloqueado", status: "Bloqueado", avatar: 10 },
 ];
 
 const messages = [
@@ -23,9 +47,173 @@ const messages = [
   { id: 5, text: "Conteúdo Bloqueado", sent: true, time: "Horário Bloqueado" },
 ];
 
+type MainTab = 'conversations' | 'calls' | 'contacts';
+
 const ChatInterface = () => {
+  const [mainTab, setMainTab] = useState<MainTab>('conversations');
   const [activeTab, setActiveTab] = useState<'personal' | 'groups'>('personal');
-  const [selectedContact, setSelectedContact] = useState(contacts[0]);
+  const [selectedContact, setSelectedContact] = useState(chatContacts[0]);
+
+  const getCallIcon = (type: string) => {
+    switch (type) {
+      case 'incoming':
+        return <PhoneIncoming className="w-4 h-4 text-primary" />;
+      case 'outgoing':
+        return <PhoneOutgoing className="w-4 h-4 text-primary" />;
+      case 'missed':
+        return <PhoneMissed className="w-4 h-4 text-destructive" />;
+      default:
+        return <PhoneIcon className="w-4 h-4" />;
+    }
+  };
+
+  const renderSidebarContent = () => {
+    switch (mainTab) {
+      case 'conversations':
+        return (
+          <>
+            {/* Filter Tabs */}
+            <div className="p-3 flex gap-2">
+              <button 
+                onClick={() => setActiveTab('personal')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeTab === 'personal' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted text-muted-foreground'
+                }`}
+              >
+                PESSOAL
+              </button>
+              <button 
+                onClick={() => setActiveTab('groups')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeTab === 'groups' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted text-muted-foreground'
+                }`}
+              >
+                GRUPOS
+              </button>
+            </div>
+
+            {/* Contact List */}
+            <div className="flex-1 overflow-y-auto">
+              {chatContacts.map((contact) => (
+                <button
+                  key={contact.id}
+                  onClick={() => setSelectedContact(contact)}
+                  className={`w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors ${
+                    selectedContact.id === contact.id ? 'bg-muted/50' : ''
+                  }`}
+                >
+                  <div className="relative">
+                    <div className="w-12 h-12 bg-muted rounded-full" />
+                    <span className="absolute bottom-0 left-0 w-3 h-3 bg-primary rounded-full border-2 border-card" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="flex items-center gap-1">
+                      <span className="font-semibold text-foreground">{contact.name}</span>
+                      <Lock className="w-3 h-3 text-amber-500" />
+                    </div>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                      <CheckCheck className="w-4 h-4 text-primary" />
+                      {contact.lastMessage}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    {contact.unread && (
+                      <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+                        {contact.unread}
+                      </span>
+                    )}
+                    {contact.hasAudio && <Mic className="w-4 h-4 text-muted-foreground" />}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </>
+        );
+
+      case 'calls':
+        return (
+          <>
+            <div className="p-3">
+              <p className="text-xs text-muted-foreground uppercase font-medium">Histórico de Ligações</p>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              {callHistory.map((call) => (
+                <div
+                  key={call.id}
+                  className="w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors"
+                >
+                  <div className="relative">
+                    <div className="w-12 h-12 bg-muted rounded-full" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="flex items-center gap-1">
+                      <span className={`font-semibold ${call.type === 'missed' ? 'text-destructive' : 'text-foreground'}`}>
+                        {call.name}
+                      </span>
+                      <Lock className="w-3 h-3 text-amber-500" />
+                    </div>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                      {getCallIcon(call.type)}
+                      <span className="flex items-center gap-1">
+                        {call.time} <Lock className="w-3 h-3 text-amber-500" />
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    {call.duration && (
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        {call.duration} <Lock className="w-3 h-3 text-amber-500" />
+                      </span>
+                    )}
+                    <PhoneIcon className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        );
+
+      case 'contacts':
+        return (
+          <>
+            <div className="p-3 flex items-center justify-between">
+              <p className="text-xs text-muted-foreground uppercase font-medium">Contatos Salvos</p>
+              <UserPlus className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              {contactsList.map((contact) => (
+                <div
+                  key={contact.id}
+                  className="w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors"
+                >
+                  <div className="relative">
+                    <div className="w-12 h-12 bg-muted rounded-full" />
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-card" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="flex items-center gap-1">
+                      <span className="font-semibold text-foreground">{contact.name}</span>
+                      <Lock className="w-3 h-3 text-amber-500" />
+                    </div>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                      {contact.status} <Lock className="w-3 h-3 text-amber-500" />
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    <PhoneIcon className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        );
+    }
+  };
 
   return (
     <div className="flex h-screen bg-card overflow-hidden">
@@ -41,79 +229,42 @@ const ChatInterface = () => {
 
         {/* Navigation Tabs */}
         <div className="flex border-b border-border">
-          <button className="flex-1 py-3 flex flex-col items-center gap-1 text-primary border-b-2 border-primary">
+          <button 
+            onClick={() => setMainTab('conversations')}
+            className={`flex-1 py-3 flex flex-col items-center gap-1 transition-colors ${
+              mainTab === 'conversations' 
+                ? 'text-primary border-b-2 border-primary' 
+                : 'text-muted-foreground'
+            }`}
+          >
             <MessageSquare className="w-5 h-5" />
             <span className="text-xs">CONVERSAS</span>
           </button>
-          <button className="flex-1 py-3 flex flex-col items-center gap-1 text-muted-foreground">
+          <button 
+            onClick={() => setMainTab('calls')}
+            className={`flex-1 py-3 flex flex-col items-center gap-1 transition-colors ${
+              mainTab === 'calls' 
+                ? 'text-primary border-b-2 border-primary' 
+                : 'text-muted-foreground'
+            }`}
+          >
             <PhoneIcon className="w-5 h-5" />
             <span className="text-xs">LIGAÇÕES</span>
           </button>
-          <button className="flex-1 py-3 flex flex-col items-center gap-1 text-muted-foreground">
+          <button 
+            onClick={() => setMainTab('contacts')}
+            className={`flex-1 py-3 flex flex-col items-center gap-1 transition-colors ${
+              mainTab === 'contacts' 
+                ? 'text-primary border-b-2 border-primary' 
+                : 'text-muted-foreground'
+            }`}
+          >
             <Users className="w-5 h-5" />
             <span className="text-xs">CONTATOS</span>
           </button>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="p-3 flex gap-2">
-          <button 
-            onClick={() => setActiveTab('personal')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              activeTab === 'personal' 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-muted text-muted-foreground'
-            }`}
-          >
-            PESSOAL
-          </button>
-          <button 
-            onClick={() => setActiveTab('groups')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              activeTab === 'groups' 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-muted text-muted-foreground'
-            }`}
-          >
-            GRUPOS
-          </button>
-        </div>
-
-        {/* Contact List */}
-        <div className="flex-1 overflow-y-auto">
-          {contacts.map((contact) => (
-            <button
-              key={contact.id}
-              onClick={() => setSelectedContact(contact)}
-              className={`w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors ${
-                selectedContact.id === contact.id ? 'bg-muted/50' : ''
-              }`}
-            >
-              <div className="relative">
-                <div className="w-12 h-12 bg-muted rounded-full" />
-                <span className="absolute bottom-0 left-0 w-3 h-3 bg-primary rounded-full border-2 border-card" />
-              </div>
-              <div className="flex-1 text-left">
-                <div className="flex items-center gap-1">
-                  <span className="font-semibold text-foreground">{contact.name}</span>
-                  <Lock className="w-3 h-3 text-amber-500" />
-                </div>
-                <p className="text-sm text-muted-foreground flex items-center gap-1">
-                  <CheckCheck className="w-4 h-4 text-primary" />
-                  {contact.lastMessage}
-                </p>
-              </div>
-              <div className="flex flex-col items-end gap-1">
-                {contact.unread && (
-                  <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
-                    {contact.unread}
-                  </span>
-                )}
-                {contact.hasAudio && <Mic className="w-4 h-4 text-muted-foreground" />}
-              </div>
-            </button>
-          ))}
-        </div>
+        {renderSidebarContent()}
 
         {/* FAB */}
         <div className="p-4">
