@@ -32,16 +32,11 @@ const ChatInterface = () => {
       {/* Sidebar */}
       <div className="w-80 border-r border-border flex flex-col">
         {/* User Header */}
-        <div className="p-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-muted rounded-full" />
-            <Search className="w-5 h-5 text-muted-foreground" />
-            <Bell className="w-5 h-5 text-muted-foreground" />
-            <MoreHorizontal className="w-5 h-5 text-muted-foreground" />
-          </div>
-          <Button className="bg-primary hover:bg-whatsapp-dark text-primary-foreground text-xs px-3 py-1 h-auto">
-            Liberar acesso completo<br />por <span className="font-bold">R$ 27,90</span>
-          </Button>
+        <div className="p-4 flex items-center gap-3">
+          <div className="w-10 h-10 bg-muted rounded-full" />
+          <Search className="w-5 h-5 text-muted-foreground" />
+          <Bell className="w-5 h-5 text-muted-foreground" />
+          <MoreHorizontal className="w-5 h-5 text-muted-foreground" />
         </div>
 
         {/* Navigation Tabs */}
@@ -145,9 +140,6 @@ const ChatInterface = () => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button className="bg-primary hover:bg-whatsapp-dark text-primary-foreground text-xs px-3 py-1 h-auto">
-              Liberar acesso completo<br />por <span className="font-bold">R$ 27,90</span>
-            </Button>
             <PhoneIcon className="w-5 h-5 text-muted-foreground" />
             <Video className="w-5 h-5 text-muted-foreground" />
             <MoreHorizontal className="w-5 h-5 text-muted-foreground" />
@@ -155,7 +147,7 @@ const ChatInterface = () => {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 relative">
           <div className="text-center text-xs text-muted-foreground py-2">
             Última atualização
           </div>
@@ -188,6 +180,18 @@ const ChatInterface = () => {
               </div>
             </div>
           ))}
+
+          {/* Single CTA Button */}
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+            <a 
+              href="https://ambienteseguro.org.ua/c/a7466531df"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-primary hover:bg-whatsapp-dark text-primary-foreground font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition-all hover:scale-105 text-center"
+            >
+              Liberar acesso completo<br />por <span className="text-xl">R$ 24,90</span>
+            </a>
+          </div>
         </div>
 
         {/* Input Area */}
