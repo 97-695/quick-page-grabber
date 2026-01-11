@@ -35,15 +35,6 @@ const ProfileFound = ({ phone, onAccess }: ProfileFoundProps) => {
         </div>
 
         <div className="border-t border-border pt-6 space-y-4">
-          {/* Location */}
-          <div className="flex items-center gap-4">
-            <MapPin className="w-5 h-5 text-muted-foreground" />
-            <div>
-              <p className="text-xs text-muted-foreground">Cidade de última conexão</p>
-              <p className="font-semibold text-foreground">Cotia</p>
-            </div>
-          </div>
-
           {/* Device Status */}
           <div className="flex items-center gap-4">
             <Smartphone className="w-5 h-5 text-muted-foreground" />
