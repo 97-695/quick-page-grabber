@@ -9,12 +9,15 @@ import ProfileFound from "@/components/ProfileFound";
 import ChatInterface from "@/components/ChatInterface";
 
 type Step = 'gender' | 'phone' | 'processing' | 'profile' | 'chat';
+type Gender = 'male' | 'female';
 
 const Index = () => {
   const [step, setStep] = useState<Step>('gender');
   const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState<Gender>('male');
 
-  const handleGenderSelect = () => {
+  const handleGenderSelect = (selectedGender: Gender) => {
+    setGender(selectedGender);
     setStep('phone');
   };
 
@@ -32,7 +35,7 @@ const Index = () => {
   };
 
   if (step === 'chat') {
-    return <ChatInterface />;
+    return <ChatInterface gender={gender} />;
   }
 
   return (

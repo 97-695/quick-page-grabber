@@ -5,38 +5,73 @@ import {
   PhoneIncoming, PhoneOutgoing, PhoneMissed, UserPlus
 } from "lucide-react";
 
-const chatContacts = [
-  { id: 1, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", unread: 3, hasAudio: true, avatar: 1 },
-  { id: 2, name: "Bloqueado", lastMessage: "Conteúdo com teor sexu...", unread: 2, avatar: 2 },
-  { id: 3, name: "Bloqueado", lastMessage: "Finalize a ordem de...", unread: 5, muted: true, avatar: 3 },
-  { id: 4, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 4 },
-  { id: 5, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 5 },
-  { id: 6, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 6 },
-  { id: 7, name: "Bloqueado", lastMessage: "Finalize a ordem de serviço", avatar: 7 },
+// Nomes femininos para quando monitora parceiro (homem)
+const femaleNames = ["Amanda", "Juliana", "Fernanda", "Camila", "Bruna", "Larissa", "Gabriela", "Mariana"];
+// Nomes masculinos para quando monitora parceira (mulher)
+const maleNames = ["Lucas", "Pedro", "Rafael", "Bruno", "Gustavo", "Felipe", "Matheus", "Carlos"];
+
+const getMaleContacts = () => [
+  { id: 1, name: "Lucas ❤️", lastMessage: "Estou com saudades amor...", unread: 3, hasPhoto: true, avatar: 1 },
+  { id: 2, name: "Pedro", lastMessage: "Quando vamos nos ver de novo?", unread: 2, avatar: 2 },
+  { id: 3, name: "Rafael 💕", lastMessage: "Você é especial pra mim...", unread: 5, muted: true, hasPhoto: true, avatar: 3 },
+  { id: 4, name: "Bruno", lastMessage: "Não esquece de mim tá?", avatar: 4 },
+  { id: 5, name: "Gustavo", lastMessage: "Posso te ligar mais tarde?", avatar: 5 },
+  { id: 6, name: "Felipe ❤️", lastMessage: "Te amo muito...", hasPhoto: true, avatar: 6 },
+  { id: 7, name: "Matheus", lastMessage: "Foi incrível ontem...", avatar: 7 },
 ];
 
-const callHistory = [
-  { id: 1, name: "Bloqueado", type: "incoming", time: "Bloqueado", duration: "5:23", avatar: 1 },
-  { id: 2, name: "Bloqueado", type: "outgoing", time: "Bloqueado", duration: "2:15", avatar: 2 },
-  { id: 3, name: "Bloqueado", type: "missed", time: "Bloqueado", duration: null, avatar: 3 },
-  { id: 4, name: "Bloqueado", type: "incoming", time: "Bloqueado", duration: "12:45", avatar: 4 },
-  { id: 5, name: "Bloqueado", type: "missed", time: "Bloqueado", duration: null, avatar: 5 },
-  { id: 6, name: "Bloqueado", type: "outgoing", time: "Bloqueado", duration: "8:30", avatar: 6 },
-  { id: 7, name: "Bloqueado", type: "incoming", time: "Bloqueado", duration: "1:02", avatar: 7 },
-  { id: 8, name: "Bloqueado", type: "missed", time: "Bloqueado", duration: null, avatar: 8 },
+const getFemaleContacts = () => [
+  { id: 1, name: "Amanda ❤️", lastMessage: "Estou com saudades amor...", unread: 3, hasPhoto: true, avatar: 1 },
+  { id: 2, name: "Juliana", lastMessage: "Achei que você ia largar ela por mim", unread: 2, avatar: 2 },
+  { id: 3, name: "Fernanda 💕", lastMessage: "Me liga quando puder amor", unread: 5, muted: true, hasPhoto: true, avatar: 3 },
+  { id: 4, name: "Camila", lastMessage: "Sinto sua falta...", avatar: 4 },
+  { id: 5, name: "Bruna", lastMessage: "Você prometeu que ia terminar", avatar: 5 },
+  { id: 6, name: "Larissa ❤️", lastMessage: "Te amo muito...", hasPhoto: true, avatar: 6 },
+  { id: 7, name: "Gabriela", lastMessage: "Quando vai ser só meu?", avatar: 7 },
 ];
 
-const contactsList = [
-  { id: 1, name: "Bloqueado", status: "Bloqueado", avatar: 1 },
-  { id: 2, name: "Bloqueado", status: "Bloqueado", avatar: 2 },
-  { id: 3, name: "Bloqueado", status: "Bloqueado", avatar: 3 },
-  { id: 4, name: "Bloqueado", status: "Bloqueado", avatar: 4 },
-  { id: 5, name: "Bloqueado", status: "Bloqueado", avatar: 5 },
-  { id: 6, name: "Bloqueado", status: "Bloqueado", avatar: 6 },
-  { id: 7, name: "Bloqueado", status: "Bloqueado", avatar: 7 },
-  { id: 8, name: "Bloqueado", status: "Bloqueado", avatar: 8 },
-  { id: 9, name: "Bloqueado", status: "Bloqueado", avatar: 9 },
-  { id: 10, name: "Bloqueado", status: "Bloqueado", avatar: 10 },
+const getMaleCallHistory = () => [
+  { id: 1, name: "Lucas ❤️", type: "incoming", time: "Bloqueado", duration: "5:23", avatar: 1 },
+  { id: 2, name: "Pedro", type: "outgoing", time: "Bloqueado", duration: "2:15", avatar: 2 },
+  { id: 3, name: "Rafael", type: "missed", time: "Bloqueado", duration: null, avatar: 3 },
+  { id: 4, name: "Bruno", type: "incoming", time: "Bloqueado", duration: "12:45", avatar: 4 },
+  { id: 5, name: "Gustavo", type: "missed", time: "Bloqueado", duration: null, avatar: 5 },
+  { id: 6, name: "Felipe", type: "outgoing", time: "Bloqueado", duration: "8:30", avatar: 6 },
+  { id: 7, name: "Matheus", type: "incoming", time: "Bloqueado", duration: "1:02", avatar: 7 },
+  { id: 8, name: "Carlos", type: "missed", time: "Bloqueado", duration: null, avatar: 8 },
+];
+
+const getFemaleCallHistory = () => [
+  { id: 1, name: "Amanda ❤️", type: "incoming", time: "Bloqueado", duration: "5:23", avatar: 1 },
+  { id: 2, name: "Juliana", type: "outgoing", time: "Bloqueado", duration: "2:15", avatar: 2 },
+  { id: 3, name: "Fernanda", type: "missed", time: "Bloqueado", duration: null, avatar: 3 },
+  { id: 4, name: "Camila", type: "incoming", time: "Bloqueado", duration: "12:45", avatar: 4 },
+  { id: 5, name: "Bruna", type: "missed", time: "Bloqueado", duration: null, avatar: 5 },
+  { id: 6, name: "Larissa", type: "outgoing", time: "Bloqueado", duration: "8:30", avatar: 6 },
+  { id: 7, name: "Gabriela", type: "incoming", time: "Bloqueado", duration: "1:02", avatar: 7 },
+  { id: 8, name: "Mariana", type: "missed", time: "Bloqueado", duration: null, avatar: 8 },
+];
+
+const getMaleContactsList = () => [
+  { id: 1, name: "Lucas", status: "Bloqueado", avatar: 1 },
+  { id: 2, name: "Pedro", status: "Bloqueado", avatar: 2 },
+  { id: 3, name: "Rafael", status: "Bloqueado", avatar: 3 },
+  { id: 4, name: "Bruno", status: "Bloqueado", avatar: 4 },
+  { id: 5, name: "Gustavo", status: "Bloqueado", avatar: 5 },
+  { id: 6, name: "Felipe", status: "Bloqueado", avatar: 6 },
+  { id: 7, name: "Matheus", status: "Bloqueado", avatar: 7 },
+  { id: 8, name: "Carlos", status: "Bloqueado", avatar: 8 },
+];
+
+const getFemaleContactsList = () => [
+  { id: 1, name: "Amanda", status: "Bloqueado", avatar: 1 },
+  { id: 2, name: "Juliana", status: "Bloqueado", avatar: 2 },
+  { id: 3, name: "Fernanda", status: "Bloqueado", avatar: 3 },
+  { id: 4, name: "Camila", status: "Bloqueado", avatar: 4 },
+  { id: 5, name: "Bruna", status: "Bloqueado", avatar: 5 },
+  { id: 6, name: "Larissa", status: "Bloqueado", avatar: 6 },
+  { id: 7, name: "Gabriela", status: "Bloqueado", avatar: 7 },
+  { id: 8, name: "Mariana", status: "Bloqueado", avatar: 8 },
 ];
 
 const messages = [
@@ -47,11 +82,40 @@ const messages = [
   { id: 5, text: "Conteúdo Bloqueado", sent: true, time: "Horário Bloqueado" },
 ];
 
+// Componente de foto com blur
+const BlurredPhoto = ({ isMale }: { isMale: boolean }) => (
+  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-pink-300 to-purple-400">
+    <div 
+      className="absolute inset-0 backdrop-blur-md"
+      style={{
+        backgroundImage: isMale 
+          ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+          : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      }}
+    />
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className={`w-8 h-8 rounded-full ${isMale ? 'bg-blue-200/50' : 'bg-pink-200/50'}`} />
+    </div>
+  </div>
+);
+
 type MainTab = 'conversations' | 'calls' | 'contacts';
 
-const ChatInterface = () => {
+interface ChatInterfaceProps {
+  gender: 'male' | 'female';
+}
+
+const ChatInterface = ({ gender }: ChatInterfaceProps) => {
   const [mainTab, setMainTab] = useState<MainTab>('conversations');
   const [activeTab, setActiveTab] = useState<'personal' | 'groups'>('personal');
+  
+  // Se monitora parceiro (male), mostra nomes femininos
+  // Se monitora parceira (female), mostra nomes masculinos
+  const isMaleTarget = gender === 'male';
+  const chatContacts = isMaleTarget ? getFemaleContacts() : getMaleContacts();
+  const callHistory = isMaleTarget ? getFemaleCallHistory() : getMaleCallHistory();
+  const contactsList = isMaleTarget ? getFemaleContactsList() : getMaleContactsList();
+  
   const [selectedContact, setSelectedContact] = useState(chatContacts[0]);
 
   const getCallIcon = (type: string) => {
@@ -107,7 +171,11 @@ const ChatInterface = () => {
                   }`}
                 >
                   <div className="relative">
-                    <div className="w-12 h-12 bg-muted rounded-full" />
+                    {contact.hasPhoto ? (
+                      <BlurredPhoto isMale={!isMaleTarget} />
+                    ) : (
+                      <div className="w-12 h-12 bg-muted rounded-full" />
+                    )}
                     <span className="absolute bottom-0 left-0 w-3 h-3 bg-primary rounded-full border-2 border-card" />
                   </div>
                   <div className="flex-1 text-left">
@@ -126,7 +194,7 @@ const ChatInterface = () => {
                         {contact.unread}
                       </span>
                     )}
-                    {contact.hasAudio && <Mic className="w-4 h-4 text-muted-foreground" />}
+                    {contact.hasPhoto && <Image className="w-4 h-4 text-muted-foreground" />}
                   </div>
                 </button>
               ))}
@@ -147,7 +215,7 @@ const ChatInterface = () => {
                   className="w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors"
                 >
                   <div className="relative">
-                    <div className="w-12 h-12 bg-muted rounded-full" />
+                    <BlurredPhoto isMale={!isMaleTarget} />
                   </div>
                   <div className="flex-1 text-left">
                     <div className="flex items-center gap-1">
@@ -191,7 +259,7 @@ const ChatInterface = () => {
                   className="w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors"
                 >
                   <div className="relative">
-                    <div className="w-12 h-12 bg-muted rounded-full" />
+                    <BlurredPhoto isMale={!isMaleTarget} />
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-card" />
                   </div>
                   <div className="flex-1 text-left">
@@ -279,10 +347,10 @@ const ChatInterface = () => {
         {/* Chat Header */}
         <div className="bg-card p-4 flex items-center justify-between border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-muted rounded-full" />
+            <BlurredPhoto isMale={!isMaleTarget} />
             <div>
               <div className="flex items-center gap-1">
-                <span className="font-semibold text-foreground">Bloqueado</span>
+                <span className="font-semibold text-foreground">{selectedContact.name}</span>
                 <Lock className="w-3 h-3 text-amber-500" />
               </div>
               <p className="text-xs text-muted-foreground flex items-center gap-1">
